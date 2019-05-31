@@ -1,26 +1,33 @@
-const table = document.getElementById('table');
+const {tBodies} = document.getElementById('table');
+const xhrUsers = new XMLHttpRequest();
+const xhrPosts = new XMLHttpRequest();
 let users;
 let posts;
 
-const xhr = new XMLHttpRequest();
-xhr.open("GET", 'https://jsonplaceholder.typicode.com/users', true);
- xhr.send();
-xhr.addEventListener('load',function () {
-    users =JSON.parse(xhr.response) ;
+document.addEventListener('DOMContentLoaded', () => {
+    xhrUsers.open("GET", 'https://jsonplaceholder.typicode.com/users');
+    xhrPosts.open("GET", ' https://jsonplaceholder.typicode.com/todos');
+    xhrUsers.send();
+    xhrUsers.responseType = 'json';
 
-    console.log(users)
-})
+    xhrUsers.addEventListener('load', function() {
+        users = xhrUsers.response;
+        xhrPosts.send();
+        xhrPosts.responseType = 'json';
 
-const xhr2 = new XMLHttpRequest();
-xhr2.open("GET", ' https://jsonplaceholder.typicode.com/todos', true);
-xhr2.send();
-xhr2.addEventListener('load',function () {
-    posts =JSON.parse(xhr2.response) ;
+        xhrPosts.addEventListener('load', function() {
+            posts = xhrPosts.response;
 
-    console.log(posts)
-})
+            posts.forEach(post => {
+                const {userId} = post;
+                const user = users.find(item => item.id === userId);
 
-function fillTable() {
-    const tbody = posts.map(user)
-}
-
+                tBodies[0].insertAdjacentHTML('beforeend', `
+                   <tr> <td>${post.title}</td>
+                   <td><a href="${user.email}">${user.name}</a></td>
+                   <td>${post.completed ? 'Completed' : ''}</td></tr>
+                   `)
+            })
+        })
+    })
+});
