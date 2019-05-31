@@ -1,4 +1,4 @@
-const {tBodies} = document.getElementById('table');
+const { tBodies } = document.getElementById('table');
 const xhrUsers = new XMLHttpRequest();
 const xhrPosts = new XMLHttpRequest();
 let users;
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             posts = xhrPosts.response;
 
             posts.forEach(post => {
-                const {userId} = post;
+                const { userId } = post;
                 const user = users.find(item => item.id === userId);
 
                 tBodies[0].insertAdjacentHTML('beforeend', `
