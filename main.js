@@ -24,7 +24,6 @@ const createRow = usersMap => props => {
     const completeTd = createElement(completedStatus);
 
     linkEmail.textContent = name;
-
     linkEmail.setAttribute('href', `mailto:${email}`);
 
     nameTd.append(linkEmail);
